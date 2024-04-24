@@ -76,7 +76,7 @@ async fn echo(data: web::Json<MyData>) -> impl Responder {
 
 #[get("/")]
 async fn home() -> impl Responder {
-    HttpResponse::Ok().json("Hola, soy integraciones de Softrek en rust.")
+    HttpResponse::Ok().json("Hola, soy integraciones de Softrek en rust..........")
 }
 
 // este #actix_web::main es un macro que nos permite definir la función main que se ejecutará al iniciar la aplicación
