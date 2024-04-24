@@ -24,7 +24,7 @@ use serde::{Deserialize, Serialize};
 *   HttpServer es un tipo de dato que nos permite crear un servidor HTTP y ejecutarlo por ejemplo con el método run()
 */
 
-use actix_web::{post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 
 /*
 *
@@ -37,7 +37,7 @@ use actix_web::{post, web, App, HttpResponse, HttpServer, Responder};
 #[derive(Serialize, Deserialize)]
 struct MyData {
     nombre: String,
-        : String,
+    contraseña: String,
 }
 
 // Al escribir el #[post("/auth")] estamos definiendo una ruta POST que se llamará /auth
@@ -46,8 +46,39 @@ struct MyData {
 
 #[post("/auth")]
 async fn echo(data: web::Json<MyData>) -> impl Responder {
+    // Inprimos el json que se manda en raw -> json por ejemplo en postman.
     HttpResponse::Ok().json(data.0)
 }
+
+// Creamos una ruta GET que se llamará / y que devolverá un mensaje de texto
+// Donde seria como un home del servicio...
+// Por ejemplo tiramos Hola, soy integraciones de Softrek en rust.
+//  La ruta sera la tipica / que retornamos un mensaje de texto en formato json
+
+/*
+    Que es la funcion async, fn , impl , httpResponse?
+    async: es una palabra clave que se utiliza para definir una función asincrónica, es decir, una función que puede pausarse y reanudarse en cualquier momento.
+    fn: es una palabra clave que se utiliza para definir una función.
+    impl: es una palabra clave que se utiliza para implementar un trait.
+    httpResponse: es un tipo de dato que nos permite devolver una respuesta HTTP.
+    que es un trait es una característica de Rust que nos permite definir un comportamiento que se puede implementar en una estructura de datos.
+*/
+
+/*
+    Yo pienso que el async fn se puede utilizar para conectarse a una base de datos, hacer una solicitud HTTP, leer un archivo, etc.
+    Tambien se le puede mandar a la solictud get solo el fn home() -> impl Responder { HttpResponse::Ok().json("Hola, soy integraciones de Softrek en rust.") }
+    que esto da entender que no es una funcion asincrona.
+
+    Tambien existe el Result que es un tipo de dato que nos permite devolver un valor o un error.
+    por ejemplo: Result<HttpResponse, Error> que nos permite devolver un valor de tipo HttpResponse o un error de tipo Error.
+
+*/
+
+#[get("/")]
+async fn home() -> impl Responder {
+    HttpResponse::Ok().json("Hola, soy integraciones de Softrek en rust.")
+}
+
 // este #actix_web::main es un macro que nos permite definir la función main que se ejecutará al iniciar la aplicación
 
 #[actix_web::main]
